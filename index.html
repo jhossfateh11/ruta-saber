@@ -231,6 +231,58 @@ main{max-width:1140px;margin:0 auto;padding:20px 16px 70px}
 .gh{flex-wrap:nowrap}.gh>div:last-child{flex:1;min-width:0}
 .gsub{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
 @media(max-width:560px){.gh{flex-wrap:wrap}}
+
+.lockbox{margin:12px 0;border:2px dashed var(--pr);border-radius:var(--radius);background:var(--soft);padding:18px 20px;text-align:center}
+.lockbox b{font-size:1.1rem}.lockbox p{margin:8px 0 12px;color:var(--mu)}
+.savedb{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px;padding:14px 18px;border-radius:var(--radius);background:linear-gradient(135deg,#d1fae5,#a7f3d0);color:#064e3b;border:1px solid #6ee7b7;box-shadow:var(--shadow)}
+.savedb small{display:block;font-weight:600;opacity:.85}
+.pwin{width:100%;margin-top:12px;padding:12px 14px;border-radius:12px;border:2px solid var(--bd);font:inherit;font-size:1rem;background:var(--card);color:var(--tx)}
+.pwerr{display:block;color:var(--bad);font-weight:700;min-height:1.2em;margin-top:6px}
+.lkbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* ===== Animaciones y zoom ===== */
+.unlbtn{font-weight:800;white-space:nowrap}
+.zbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 6px}
+.zt{font-weight:800;color:var(--pr)}.zl{min-width:48px;text-align:center;font-weight:800}
+.zh{font-size:.75rem;color:var(--mu);font-weight:600}
+.zb{padding:6px 12px;border-radius:10px;background:var(--card);color:var(--tx);border:1.5px solid var(--bd);font-weight:800}
+.zb:hover{border-color:var(--pr);color:var(--pr);transform:scale(1.08)}
+.zb.x{background:var(--bad);color:#fff;border-color:var(--bad)}
+.pg{cursor:zoom-in;transition:width .2s,max-width .2s}.pgw .pg{margin-left:auto;margin-right:auto}
+.lb{position:fixed;inset:0;z-index:80;background:rgba(8,2,12,.92);display:flex;flex-direction:column}
+.lbbar{display:flex;align-items:center;gap:10px;padding:10px 14px;color:#fff;background:rgba(0,0,0,.4);flex-wrap:wrap}
+.lbbody{flex:1;overflow:auto;padding:14px;-webkit-overflow-scrolling:touch}
+.lbbody img{display:block;margin:0 auto;background:#fff;border-radius:8px;max-width:none}
+@keyframes cardIn{0%{opacity:0;transform:translateY(46px) scale(.8) rotate(-4deg)}60%{opacity:1;transform:translateY(-9px) scale(1.04) rotate(1.5deg)}100%{opacity:1;transform:none}}
+@keyframes floaty{0%,100%{transform:rotate(-6deg) translateY(0) scale(1)}50%{transform:rotate(6deg) translateY(-9px) scale(1.08)}}
+@keyframes shine{0%{left:-90%}55%,100%{left:140%}}
+@keyframes glow{0%,100%{box-shadow:0 8px 22px color-mix(in srgb,var(--c) 18%,transparent)}50%{box-shadow:0 10px 36px color-mix(in srgb,var(--c) 55%,transparent)}}
+@keyframes beat{0%,100%{transform:scale(1)}14%{transform:scale(1.22)}28%{transform:scale(1)}42%{transform:scale(1.14)}70%{transform:scale(1)}}
+@keyframes btnpulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--c) 55%,transparent)}70%,100%{box-shadow:0 0 0 14px transparent}}
+@keyframes spinpop{0%{transform:rotate(-5deg) scale(1)}50%{transform:rotate(360deg) scale(1.35)}100%{transform:rotate(355deg) scale(1.1)}}
+@keyframes wob{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg) translateY(-6px)}}
+.sc{position:relative;overflow:hidden;animation:cardIn .75s cubic-bezier(.2,1.1,.4,1) backwards,glow 3.4s ease-in-out 1s infinite}
+.sc:nth-child(1){animation-delay:.05s,1s}.sc:nth-child(2){animation-delay:.15s,1.3s}.sc:nth-child(3){animation-delay:.25s,1.6s}.sc:nth-child(4){animation-delay:.35s,1.9s}.sc:nth-child(5){animation-delay:.45s,2.2s}.sc:nth-child(6){animation-delay:.55s,2.5s}
+.sc::before{content:"";position:absolute;top:0;left:-90%;width:45%;height:100%;pointer-events:none;background:linear-gradient(110deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);animation:shine 4s ease-in-out 1.2s infinite}
+.sc:nth-child(even)::before{animation-delay:2.4s}
+.sc .ic{animation:floaty 3.2s ease-in-out infinite}
+.sc:nth-child(even) .ic{animation-delay:-1.6s}
+.sc .n{display:inline-block;animation:beat 2.8s ease-in-out infinite}
+.sc .b1{animation:btnpulse 2s ease-out infinite;--c:inherit}
+.sc:hover{transform:translateY(-10px) rotate(-1.2deg) scale(1.04);box-shadow:0 20px 40px color-mix(in srgb,var(--c) 40%,transparent)}
+.sc:hover .ic{animation:spinpop .7s ease}
+.sc:active{transform:scale(.97)}
+.gc{animation:cardIn .75s cubic-bezier(.2,1.1,.4,1) backwards}
+.gc:nth-child(1){animation-delay:.05s}.gc:nth-child(2){animation-delay:.15s}.gc:nth-child(3){animation-delay:.25s}.gc:nth-child(4){animation-delay:.35s}.gc:nth-child(5){animation-delay:.45s}.gc:nth-child(6){animation-delay:.55s}
+.gc .gb{animation:wob 3.4s ease-in-out infinite}
+.gc:nth-child(even) .gb{animation-delay:-1.7s}
+.gc:hover{transform:translateY(-9px) rotate(-.8deg) scale(1.03)}
+.gc:hover .gb{animation:spinpop .7s ease}
+.gc .gbtn{animation:btnpulse 2.4s ease-out infinite}
+.lg-ic{animation:wob 3s ease-in-out infinite}
+.feats span{animation:cardIn .7s ease backwards}
+.feats span:nth-child(2){animation-delay:.1s}.feats span:nth-child(3){animation-delay:.2s}.feats span:nth-child(4){animation-delay:.3s}
+@media(prefers-reduced-motion:reduce){.sc,.sc::before,.sc .ic,.sc .n,.sc .b1,.gc,.gc .gb,.gc .gbtn,.lg-ic,.feats span{animation:none!important}}
 </style>
 </head>
 <body>
@@ -242,6 +294,7 @@ main{max-width:1140px;margin:0 auto;padding:20px 16px 70px}
   <span class="chip hid" id="pc"></span>
   <button class="b4 hid" id="bExit">Salir de la prueba</button>
   <button class="b4 hid" id="bFin">Finalizar prueba</button>
+  <button class="b4 unlbtn" id="bUnl" onclick="toggleAll()">🔑 Desbloquear todo</button>
 </header>
 <main id="app"></main>
 <div id="mod"></div>
@@ -358,7 +411,79 @@ let S=DATA.sections;const ALL=[];function setS(ids){S=ids?DATA.sections.filter(s
 let st={ans:{},flag:{},i:0,t0:0,sec:0,view:'home',rv:null,filter:'all'};let timer=null;
 const $=id=>document.getElementById(id),key=(s,q)=>s.id+'-'+q.n;
 const fmt=x=>[x/3600|0,(x/60|0)%60,x%60].map(v=>String(v).padStart(2,'0')).join(':');
-const img=p=>'<img class="pg" alt="Página '+p+' del cuadernillo" src="data:image/webp;base64,'+DATA.pages[p]+'">';
+let ZOOM=1,LBZ=1,LBP=0;
+const img=p=>'<img class="pg" alt="Página '+p+' del cuadernillo" title="Clic para ampliar" onclick="openLB('+p+')" style="width:'+ZOOM*100+'%;max-width:'+Math.round(820*ZOOM)+'px" src="data:image/webp;base64,'+DATA.pages[p]+'">';
+function zoomSet(z){ZOOM=Math.max(.5,Math.min(3,Math.round(z*100)/100));document.querySelectorAll(".pgw .pg").forEach(i=>{i.style.width=ZOOM*100+"%";i.style.maxWidth=Math.round(820*ZOOM)+"px"});document.querySelectorAll(".zl").forEach(e=>e.textContent=Math.round(ZOOM*100)+"%")}
+const zoomBy=d=>zoomSet(ZOOM+d);
+function zbar(){return '<div class="zbar"><span class="zt">🔍 Zoom</span><button class="zb" onclick="zoomBy(-.25)" title="Alejar">➖</button><span class="zl">'+Math.round(ZOOM*100)+'%</span><button class="zb" onclick="zoomBy(.25)" title="Acercar">➕</button><button class="zb" onclick="zoomSet(1)" title="Tamaño original">↺</button><span class="zh">Toca la imagen para verla en pantalla completa</span></div>'}
+function lbSet(z){LBZ=Math.max(.5,Math.min(4,Math.round(z*100)/100));const i=document.getElementById("lbimg");if(i){i.style.width=LBZ*100+"%"}const l=document.getElementById("lbl");if(l)l.textContent=Math.round(LBZ*100)+"%"}
+function openLB(p){LBP=p;LBZ=1;$("mod").innerHTML='<div class="lb"><div class="lbbar"><b>Página '+p+'</b><span class="sp"></span><button class="zb" onclick="lbSet(LBZ-.25)">➖</button><span id="lbl" class="zl">100%</span><button class="zb" onclick="lbSet(LBZ+.25)">➕</button><button class="zb" onclick="lbSet(1)">↺</button><button class="zb x" onclick="closeModal()">✖ Cerrar</button></div><div class="lbbody" onwheel="if(event.ctrlKey){event.preventDefault();lbSet(LBZ+(event.deltaY<0?.15:-.15))}"><img id="lbimg" alt="Página '+p+'" style="width:100%" src="data:image/webp;base64,'+DATA.pages[p]+'"></div></div>'}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&document.querySelector(".lb"))closeModal()});
+const PW_HASH="12ff94714126343b24afd48be7b508f8b14f50052c770fb57034d4d736a1b309";
+const LS_SAVE="rutasaber-avance-v1",LS_PW="rutasaber-acceso-v2";
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v);return true}catch(e){return false}};
+const lsDel=k=>{try{localStorage.removeItem(k)}catch(e){}};
+const PW_G={"6":"f2b4deb9c3659407a26ab8c4f2a38f6ea5c728cb6094b1c4a8ba0e1177ff66f1","7":"5a94f40e5bc4fef793da22a8599ca9156fefc918240e6ae0085c24eb23e78624","8":"048d770c8315365ea950049798208a225bcc3a092a13de32cb3884cb35793fda","9":"1e4536a04b57c8a7c5991cfeeb6b071664fb1d23c4dadd41f6f233508c4d3d6a","10":"940c7a21aebce103e383d22f673c3c002019d906d53a77cb8b7bae8f53a0d690","11":"27028f62cf1c3e447440f0eaa68789da2fe310eb735b3169d84278b7f97ff4b8"};
+let UNL={all:false,g:{}},PWMODE="g";
+try{const o=JSON.parse(lsGet(LS_PW));if(o){UNL.all=!!o.all;UNL.g=o.g||{}}}catch(e){}
+const saveUnl=()=>lsSet(LS_PW,JSON.stringify(UNL));
+const gOf=s=>s.g||"11";
+function curG(){return ALL.length?gOf(ALL[0].s):null}
+function isUnl(){return !!(UNL.all||(curG()&&UNL.g[curG()]))}
+function updUnl(){const b=$("bUnl");if(!b)return;b.textContent=UNL.all?"🔓 Todo desbloqueado":"🔑 Desbloquear todo";b.title=UNL.all?"Clic para volver a bloquear todo":"Ingresa la clave maestra para desbloquear todos los grados"}
+function refreshView(){if(st.view==="review")drawRev();else if(st.view==="results")results()}
+async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function askPw(mode){
+  PWMODE=mode||"g";
+  const t=PWMODE==="all"?'Escribe la <b>clave maestra</b> para desbloquear <b>todos los grados</b>.':'Escribe la contraseña de este grado para ver las <b>respuestas correctas, las explicaciones y el paso a paso</b>. (La clave maestra también funciona.)';
+  modal("🔒 Contenido protegido",t+'<input id="pwin" class="pwin" type="password" placeholder="Contraseña" autocomplete="off" onkeydown="if(event.key===\'Enter\')tryPw()"><span id="pwerr" class="pwerr"></span>','<button class="b2" onclick="closeModal()">Cancelar</button><button class="b1" onclick="tryPw()">🔓 Desbloquear</button>');
+  setTimeout(()=>{const e=$("pwin");if(e)e.focus()},60);
+}
+async function tryPw(){
+  const v=($("pwin")||{}).value||"";let h="";
+  try{h=await sha(v)}catch(e){$("pwerr").textContent="Tu navegador no permite verificar la contraseña (abre la página con https).";return}
+  const bad=m=>{$("pwerr").textContent=m;const e=$("pwin");if(e){e.value="";e.focus()}};
+  const done=()=>{saveUnl();closeModal();updUnl();refreshView()};
+  if(h===PW_HASH){UNL.all=true;done();return}
+  if(PWMODE==="all"){bad("Esa no es la clave maestra.");return}
+  const g=Object.keys(PW_G).find(k=>PW_G[k]===h);
+  if(!g){bad("Contraseña incorrecta. Inténtalo de nuevo.");return}
+  if(g!==curG()){bad("Esa contraseña es de otro grado.");return}
+  UNL.g[g]=true;done();
+}
+function relock(){UNL={all:false,g:{}};saveUnl();updUnl();if(st.filter==="bad")st.filter="all";refreshView()}
+function toggleAll(){UNL.all?relock():askPw("all")}
+function lockHTML(a,ok){return (ok?'<div class="fb ok">✔ ¡Correcto! Marcaste la <b>'+a+'</b>.</div>':'')+'<div class="lockbox"><b>🔒 '+(ok?'Explicación y paso a paso bloqueados':'Respuesta correcta y explicación bloqueadas')+'</b><p>'+(ok?'':(a?'Tu respuesta fue la <b>'+a+'</b>. ':'No respondiste esta pregunta. '))+'Para ver '+(ok?'la explicación y el paso a paso':'la respuesta correcta, la explicación y el paso a paso')+', ingresa la contraseña.</p><button class="b1" onclick="askPw()">🔑 Ingresar contraseña</button></div>'}
+function loadProg(){try{const o=JSON.parse(lsGet(LS_SAVE));return o&&o.ans?o:null}catch(e){return null}}
+function saveProg(){
+  if(!st||!st.ans||!ALL.length)return;
+  if(st.view!=="test"&&st.view!=="results"&&st.view!=="review")return;
+  lsSet(LS_SAVE,JSON.stringify({v:1,ids:st.ids||null,ans:st.ans,flag:st.flag||{},i:st.i||0,el:((st.t1||Date.now())-st.t0)/1000|0,lim:st.lim||0,done:!!st.t1,grade:curGrade,at:Date.now()}));
+}
+function savedBanner(){
+  const sv=loadProg();if(!sv)return"";const n=Object.keys(sv.ans).length;
+  return '<div class="savedb"><div><b>💾 Tienes '+(sv.done?'una prueba terminada guardada':'una prueba en curso guardada')+'</b><small>'+n+' respuestas · guardada el '+new Date(sv.at).toLocaleString("es-CO")+'</small></div><div class="nav"><button class="b1" onclick="resumeProg()">'+(sv.done?'Ver resultados':'▶ Continuar')+'</button><button class="b2" onclick="discardProg()">Descartar</button></div></div>';
+}
+function discardProg(){
+  modal("🗑️ ¿Descartar el avance?","Se borrarán <b>todas las respuestas y resultados guardados</b> en este dispositivo y empezarás desde cero. Esta acción no se puede deshacer.",'<button class="b2" onclick="closeModal()">Cancelar</button><button class="b3" onclick="doDiscard()">Sí, borrar y empezar de cero</button>');
+}
+function doDiscard(){
+  lsDel(LS_SAVE);clearInterval(timer);closeModal();
+  st={ans:{},flag:{},i:0,t0:0,t1:0,sec:0,view:"home",rv:null,filter:"all",showExp:{}};
+  ALL.length=0;head(false);
+  if(curGrade)gradeView(curGrade);else home();
+  window.scrollTo(0,0);
+}
+function resumeProg(){
+  const sv=loadProg();if(!sv)return;
+  setS(sv.ids&&sv.ids.length?sv.ids:null);
+  if(!ALL.length){lsDel(LS_SAVE);return}
+  curGrade=sv.grade||null;
+  st={ans:sv.ans||{},flag:sv.flag||{},i:Math.min(sv.i||0,ALL.length-1),t0:Date.now()-(sv.el||0)*1000,t1:0,lim:sv.lim||0,instant:false,view:"test",filter:"all",showExp:{},ids:sv.ids||null};
+  if(sv.done){st.t1=st.t0+(sv.el||0)*1000;results();return}
+  head(true);clearInterval(timer);timer=setInterval(tick,1000);tick();drawQ();
+}
 function head(on){['tm','pc','bExit','bFin'].forEach(i=>$(i).classList.toggle('hid',!on))}
 
 let curGrade=null;
@@ -373,7 +498,7 @@ const gSecs=g=>g==='11'?DATA.sections.filter(s=>!s.g):DATA.sections.filter(s=>s.
 const gCount=g=>gSecs(g).reduce((a,s)=>a+s.qs.length,0);
 function home(){setS();clearInterval(timer);st.view='home';curGrade=null;head(false);
 const total=DATA.sections.reduce((a,s)=>a+s.qs.length,0);
-$('app').innerHTML=`
+$('app').innerHTML=`${savedBanner()}
 <div class="hero">
   <div class="logo-big">
     <div class="lg-ic">🧭</div>
@@ -411,14 +536,24 @@ $('app').innerHTML=`
     <li>Al pasar a la siguiente pregunta verás de nuevo el texto o la lectura a la que pertenece.</li>
     <li>Puedes marcar preguntas para revisarlas después.</li>
     <li><b>Salir de la prueba</b> te saca sin calificar; <b>Finalizar prueba</b> muestra tus resultados.</li>
-    <li>Puedes cambiar una respuesta cuantas veces quieras. Las <b>respuestas correctas y las explicaciones</b> aparecen solo cuando finalices la prueba.</li>
+    <li>Puedes cambiar una respuesta cuantas veces quieras. Las <b>respuestas correctas y las explicaciones</b> se ven al finalizar la prueba, <b>con contraseña</b>.</li>
+    <li>Tu avance se <b>guarda automáticamente en este dispositivo</b>: si cierras la página puedes continuar donde quedaste.</li>
   </ul>
 </div>
 
 <div class="cred">
   <b>Sobre esta página</b>
-  <p style="margin:8px 0 0">Creada por los estudiantes <b>Jhosie Esteban Granobles</b> <a class="ig" href="https://www.instagram.com/yhosi_007" target="_blank" rel="noopener">📸 @yhosi_007</a> y <b>Ángel Gabriel de la Cruz</b>, estudiantes de grado décimo de la Institución Educativa Jorge Isaacs de El Cerrito, Valle, próximos a graduarse como la <b>promoción 2027</b>. Hecho con fines educativos y con inteligencia artificial.</p>
-  <blockquote class="legado">🎓 <b>Nuestro legado para las futuras generaciones:</b> dejamos esta página para que quienes vienen detrás tengan el camino un poco más fácil. Estudien con constancia, aprendan de cada error y crean en ustedes: el ICFES no mide cuánto saben hoy, sino cuánto se atrevieron a prepararse. Que este simulacro los acerque a sus sueños. <span>— Promoción 2027</span></blockquote>
+  <p style="margin:8px 0 0">Creada por los estudiantes <b>Jhosie Esteban Granobles</b> y <b>Ángel Gabriel de la Cruz</b>, estudiantes de grado décimo de la Institución Educativa Jorge Isaacs de El Cerrito, Valle, próximos a graduarse como la <b>promoción 2027</b>. Hecho con fines educativos y con inteligencia artificial.</p>
+  <blockquote class="legado">
+    <b>🎓 Nuestro legado para ustedes, las futuras generaciones</b><br><br>
+    Querido estudiante: si estás leyendo esto, es porque decidiste dedicar un rato de tu día a prepararte, y eso ya te hace valiente. 💖<br><br>
+    Nosotros estuvimos sentados donde tú estás hoy: con dudas, con nervios y con ganas de hacerlo bien. Por eso creamos esta página: para que el camino te resulte un poco más fácil, más claro y menos solitario de lo que fue el nuestro.<br><br>
+    Queremos que recuerdes algo importante: <b>un simulacro no define quién eres.</b> Equivocarte aquí no es fracasar, es descubrir qué te falta repasar mientras todavía hay tiempo. Cada error es una pista, cada intento es un paso, y cada día de constancia te acerca más a tus sueños.<br><br>
+    Estudia con calma, descansa cuando lo necesites, pide ayuda sin pena y celebra tus avances por pequeños que parezcan. Rodéate de compañeros que te impulsen y compartan lo que saben, porque aprender en equipo es más bonito y llega más lejos.<br><br>
+    Nunca dejes de creer en ti. Lo que hoy te parece difícil, mañana será parte de lo que ya sabes. El ICFES no mide cuánto sabes hoy, sino cuánto te atreviste a prepararte. ¡Gracias por confiar en esta página y por darle sentido a nuestro esfuerzo! 🌟<br><br>
+    Con mucho cariño y mucha fe en ustedes, nos despedimos deseándoles éxitos en todo lo que se propongan. 🚀
+    <span>— Promoción 2027 · I. E. Jorge Isaacs, El Cerrito, Valle 💗</span>
+  </blockquote>
 </div>
 
 <div class="disclaimer">
@@ -432,7 +567,7 @@ function gradeView(g){
   const G=GRADES.find(x=>x[0]===g);const GS=gSecs(g);
   curGrade=g;st.view='grade';clearInterval(timer);head(false);
   const ids=GS.map(s=>s.id);
-  $('app').innerHTML=`
+  $('app').innerHTML=`${savedBanner()}
 <button class="b2 backb" onclick="home()">← Todos los grados</button>
 <div class="gh${g==='11'?' final':''}" style="--c:${G[2]}">
   <div class="gb">${g}.º</div>
@@ -463,7 +598,6 @@ function gradeView(g){
     <select id="tl">
       <option value="0">Sin límite de tiempo</option>
       <option value="270">4 h 30 min (prueba real)</option>
-      <option value="60">1 h (una materia)</option>
     </select>
   </label>
   <button class="b1" onclick="${g==='11'?'start()':'start('+JSON.stringify(ids).replace(/"/g,"'")+')'}">▶ Presentar prueba completa</button>
@@ -471,7 +605,7 @@ function gradeView(g){
 <div class="rules">
   <b>Recuerda</b>
   <ul>
-    <li>Las <b>respuestas correctas, la justificación paso a paso y el método recomendado</b> aparecen cuando finalizas la prueba.</li>
+    <li>Las <b>respuestas correctas, la justificación paso a paso y el método recomendado</b> se desbloquean con <b>contraseña</b> al finalizar la prueba.</li>
     <li>Puedes cambiar una respuesta cuantas veces quieras y marcar preguntas para revisarlas después.</li>
   </ul>
 </div>`;
@@ -480,11 +614,13 @@ function gradeView(g){
 function backToGrade(){curGrade?gradeView(curGrade):home()}
 
 function start(ids){
+  const sv=loadProg();
+  if(sv&&!sv.done&&Object.keys(sv.ans).length&&!confirm('Tienes una prueba guardada sin terminar. Si empiezas una nueva, el avance guardado se reemplazará. ¿Continuar?'))return;
   setS(Array.isArray(ids)?ids:null);
   const v=$('tl')?$('tl').value:'0';
   const lim=+v*60;
-  st={ans:{},flag:{},i:0,t0:Date.now(),t1:0,lim:lim,instant:false,view:'test',filter:'all',showExp:{}};
-  head(true);clearInterval(timer);timer=setInterval(tick,1000);tick();drawQ();
+  st={ans:{},flag:{},i:0,t0:Date.now(),t1:0,lim:lim,instant:false,view:'test',filter:'all',showExp:{},ids:Array.isArray(ids)?ids:null};
+  head(true);clearInterval(timer);timer=setInterval(tick,1000);tick();drawQ();saveProg();
 }
 
 function tick(){
@@ -565,7 +701,7 @@ function side(rev){
       const k=key(s,q),a=st.ans[k],idx=ALL.findIndex(x=>x.q===q);
       let c='dot';
       if(rev){c+=!a?' na':a===q.k?' ok':' bad'}
-      else{if(a)c+=' an';if(st.flag[k])c+=' fl'}
+      else{if(a)c+=' an';if(st.flag[k])c+=' fl';if(st.view==='review'&&a&&a===q.k)c+=' ok'}
       if(idx===st.i)c+=' cur';
       return `<button class="${c}" onclick="go(${idx})">${q.n}</button>`;
     }).join('')}</div></div>`;
@@ -574,7 +710,7 @@ function side(rev){
   return h+'</div>';
 }
 
-function go(i){st.i=i;st.view==='review'?drawRev():drawQ();window.scrollTo({top:0,behavior:'smooth'})}
+function go(i){st.i=i;if(st.view==='test')saveProg();st.view==='review'?drawRev():drawQ();window.scrollTo({top:0,behavior:'smooth'})}
 
 function body(i,rev){
   const {s,q}=ALL[i],k=key(s,q),a=st.ans[k],pg=q.pages||[];
@@ -585,11 +721,12 @@ function body(i,rev){
     h+=`<div class="qtext">${q.n}. ${q.q}</div>`;
   }else{
     if(pg.length>1)h+='<div class="ctx">Texto / contexto de la pregunta</div>';
-    h+=`<div class="pgw">${pg.map(img).join('')}</div>`;
+    h+=zbar()+`<div class="pgw">${pg.map(img).join('')}</div>`;
   }
   h+=`<div class="ctx">Tu respuesta</div><div class="opts ${q.t?'col':''}">${[...q.o].map(o=>{
     let c='opt o-'+o+(q.t?' card':'');
-    if(rev){if(o===q.k)c+=' ok';else if(o===a)c+=' bad'}
+    if(rev&&isUnl()){if(o===q.k)c+=' ok';else if(o===a)c+=' bad'}
+    else if(rev&&a===q.k&&o===a)c+=' ok';
     else if(a===o)c+=' sel';
     const inner=q.t?`<span class="ob">${o}</span><span class="ot">${q.opts[o]}</span>`:o;
     return `<button class="${c}" ${rev?'disabled':`onclick="pick('${k}','${o}')"`}>${inner}</button>`;
@@ -599,7 +736,7 @@ function body(i,rev){
 
 function drawQ(){
   const i=st.i,{s,q}=ALL[i],k=key(s,q);
-  $('pc').textContent=Object.keys(st.ans).length+' / '+ALL.length+' respondidas';
+  $('pc').textContent=Object.keys(st.ans).length+' / '+ALL.length+' respondidas · 💾 guardado';
   $('app').innerHTML=`<div class="layout"><div>${body(i,false)}${fbq(q,st.ans[k],s)}
     <div class="nav">
       <button class="b2" onclick="go(${i-1})" ${i?'':'disabled'}>← Anterior</button>
@@ -611,14 +748,14 @@ function drawQ(){
   </div>${side(false)}</div>`;
 }
 
-function pick(k,o){if(st.instant&&st.ans[k])return;st.ans[k]=o;drawQ()}
-function clr(k){delete st.ans[k];if(st.showExp)delete st.showExp[k];drawQ()}
-function flag(k){st.flag[k]=!st.flag[k];drawQ()}
+function pick(k,o){if(st.instant&&st.ans[k])return;st.ans[k]=o;saveProg();drawQ()}
+function clr(k){delete st.ans[k];if(st.showExp)delete st.showExp[k];saveProg();drawQ()}
+function flag(k){st.flag[k]=!st.flag[k];saveProg();drawQ()}
 
 function modal(t,m,b){$('mod').innerHTML=`<div class="modal"><div class="box"><h3>${t}</h3><p>${m}</p><div class="nav" style="justify-content:flex-end">${b}</div></div></div>`}
 function closeModal(){$('mod').innerHTML=''}
 
-$('bExit').onclick=()=>modal('¿Salir de la prueba?','Saldrás ahora mismo y <b>no se calificará</b> tu intento. Perderás las respuestas marcadas.','<button class="b2" onclick="closeModal()">Seguir en la prueba</button><button class="b3" onclick="closeModal();backToGrade()">Sí, salir ya</button>');
+$('bExit').onclick=()=>modal('¿Salir de la prueba?','Saldrás ahora y <b>no se calificará</b> tu intento. Tu avance queda <b>guardado en este dispositivo</b> y podrás continuar después.','<button class="b2" onclick="closeModal()">Seguir en la prueba</button><button class="b3" onclick="closeModal();backToGrade()">Sí, salir ya</button>');
 $('bFin').onclick=fin;
 
 function fin(){
@@ -641,7 +778,7 @@ function calc(){
 }
 
 function results(){
-  clearInterval(timer);st.t1=st.t1||Date.now();st.view='results';head(false);
+  clearInterval(timer);st.t1=st.t1||Date.now();st.view='results';head(false);saveProg();
   const {r,ing,glob}=calc();
   const C=r.reduce((a,x)=>a+x.c,0),W=r.reduce((a,x)=>a+x.w,0),N=r.reduce((a,x)=>a+x.n,0),pct=Math.round(C/ALL.length*100);
   const P=id=>(r.find(x=>x.s.id===id)||{p:0}).p;
@@ -690,13 +827,14 @@ function results(){
   </div>
   <div class="nav" style="margin-top:16px">
     <button class="b1" onclick="rev('all')">Revisar todas las preguntas</button>
-    <button class="b2" onclick="rev('bad')">Ver las falladas</button>
+    ${isUnl()?`<button class="b2" onclick="rev('bad')">Ver las falladas</button>`:''}
     <button class="b2" onclick="rev('na')">Ver las no respondidas</button>
     <button class="b2" onclick="backToGrade()">Volver a las pruebas</button>
+    ${isUnl()?`<button class="b2" onclick="relock()">🔒 Bloquear respuestas</button>`:`<button class="b1" onclick="askPw()">🔑 Desbloquear respuestas</button>`}
   </div>`;
 }
 
-function rev(f){st.view='review';st.filter=f;const L=lst();if(!L.length){st.filter='all'}st.i=lst()[0];drawRev()}
+function rev(f){st.view='review';st.filter=(f==='bad'&&!isUnl())?'all':f;const L=lst();if(!L.length){st.filter='all'}st.i=lst()[0];drawRev()}
 function lst(){return ALL.map((x,i)=>i).filter(i=>{const {s,q}=ALL[i],a=st.ans[key(s,q)];return st.filter==='all'||(st.filter==='bad'&&a&&a!==q.k)||(st.filter==='na'&&!a)})}
 
 function drawRev(){
@@ -711,17 +849,18 @@ function drawRev(){
   $('app').innerHTML=`
   <div class="nav" style="margin-bottom:10px">
     <button class="b2" onclick="results()">← Resultados</button>
-    <div class="filt">${f('all','Todas')}${f('bad','Falladas')}${f('na','Sin responder')}</div>
+    <div class="filt">${f('all','Todas')}${isUnl()?f('bad','Falladas'):''}${f('na','Sin responder')}</div>
+    ${isUnl()?'<button class="b2" onclick="relock()">🔒 Bloquear</button>':'<button class="b1" onclick="askPw()">🔑 Contraseña</button>'}
   </div>
   <div class="layout">
-    <div>${body(i,true)}${fb}${explHTML(s,q)}${methodHTML(s,q)}${ex}
+    <div>${body(i,true)}${isUnl()?fb+explHTML(s,q)+methodHTML(s,q)+ex:lockHTML(a,a===q.k)}
       <div class="nav" style="margin-top:12px">
         <button class="b2" ${p>0?`onclick="go(${L[p-1]})"`:'disabled'}>← Anterior</button>
         <span class="sp"></span>
         <button class="b1" ${p<L.length-1?`onclick="go(${L[p+1]})"`:'disabled'}>Siguiente →</button>
       </div>
     </div>
-    ${side(true)}
+    ${side(isUnl())}
   </div>`;
 }
 
@@ -734,7 +873,7 @@ for(let i=0;i<28;i++){
   s.style.cssText=`left:${(i*23+7)%94}%;top:${(i*41+5)%90}%;font-size:${38+(i*13)%42}px;transform:rotate(${(i*37)%60-30}deg)`;
   bg.appendChild(s);
 }
-home();
+updUnl();home();
 
 </script>
 </body>
