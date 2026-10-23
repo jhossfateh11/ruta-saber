@@ -248,7 +248,7 @@ main{max-width:1140px;margin:0 auto;padding:20px 16px 70px}
 .zb{padding:6px 12px;border-radius:10px;background:var(--card);color:var(--tx);border:1.5px solid var(--bd);font-weight:800}
 .zb:hover{border-color:var(--pr);color:var(--pr);transform:scale(1.08)}
 .zb.x{background:var(--bad);color:#fff;border-color:var(--bad)}
-.pg{cursor:zoom-in;transition:width .2s,max-width .2s}.pgw .pg{margin-left:auto;margin-right:auto}
+.pg{cursor:default;transition:width .2s,max-width .2s}.pgw .pg{margin-left:auto;margin-right:auto}
 .lb{position:fixed;inset:0;z-index:80;background:rgba(8,2,12,.92);display:flex;flex-direction:column}
 .lbbar{display:flex;align-items:center;gap:10px;padding:10px 14px;color:#fff;background:rgba(0,0,0,.4);flex-wrap:wrap}
 .lbbody{flex:1;overflow:auto;padding:14px;-webkit-overflow-scrolling:touch}
@@ -412,10 +412,10 @@ let st={ans:{},flag:{},i:0,t0:0,sec:0,view:'home',rv:null,filter:'all'};let time
 const $=id=>document.getElementById(id),key=(s,q)=>s.id+'-'+q.n;
 const fmt=x=>[x/3600|0,(x/60|0)%60,x%60].map(v=>String(v).padStart(2,'0')).join(':');
 let ZOOM=1,LBZ=1,LBP=0;
-const img=p=>'<img class="pg" alt="Página '+p+' del cuadernillo" title="Clic para ampliar" onclick="openLB('+p+')" style="width:'+ZOOM*100+'%;max-width:'+Math.round(820*ZOOM)+'px" src="data:image/webp;base64,'+DATA.pages[p]+'">';
+const img=p=>'<img class="pg" alt="Página '+p+' del cuadernillo" style="width:'+ZOOM*100+'%;max-width:'+Math.round(820*ZOOM)+'px" src="data:image/webp;base64,'+DATA.pages[p]+'">';
 function zoomSet(z){ZOOM=Math.max(.5,Math.min(3,Math.round(z*100)/100));document.querySelectorAll(".pgw .pg").forEach(i=>{i.style.width=ZOOM*100+"%";i.style.maxWidth=Math.round(820*ZOOM)+"px"});document.querySelectorAll(".zl").forEach(e=>e.textContent=Math.round(ZOOM*100)+"%")}
 const zoomBy=d=>zoomSet(ZOOM+d);
-function zbar(){return '<div class="zbar"><span class="zt">🔍 Zoom</span><button class="zb" onclick="zoomBy(-.25)" title="Alejar">➖</button><span class="zl">'+Math.round(ZOOM*100)+'%</span><button class="zb" onclick="zoomBy(.25)" title="Acercar">➕</button><button class="zb" onclick="zoomSet(1)" title="Tamaño original">↺</button><span class="zh">Toca la imagen para verla en pantalla completa</span></div>'}
+function zbar(){return '<div class="zbar"><span class="zt">🔍 Zoom</span><button class="zb" onclick="zoomBy(-.25)" title="Alejar">➖</button><span class="zl">'+Math.round(ZOOM*100)+'%</span><button class="zb" onclick="zoomBy(.25)" title="Acercar">➕</button><button class="zb" onclick="zoomSet(1)" title="Tamaño original">↺</button><span class="zh">Usa ➖ ➕ para alejar o acercar; desplázate dentro de la imagen para moverte</span></div>'}
 function lbSet(z){LBZ=Math.max(.5,Math.min(4,Math.round(z*100)/100));const i=document.getElementById("lbimg");if(i){i.style.width=LBZ*100+"%"}const l=document.getElementById("lbl");if(l)l.textContent=Math.round(LBZ*100)+"%"}
 function openLB(p){LBP=p;LBZ=1;$("mod").innerHTML='<div class="lb"><div class="lbbar"><b>Página '+p+'</b><span class="sp"></span><button class="zb" onclick="lbSet(LBZ-.25)">➖</button><span id="lbl" class="zl">100%</span><button class="zb" onclick="lbSet(LBZ+.25)">➕</button><button class="zb" onclick="lbSet(1)">↺</button><button class="zb x" onclick="closeModal()">✖ Cerrar</button></div><div class="lbbody" onwheel="if(event.ctrlKey){event.preventDefault();lbSet(LBZ+(event.deltaY<0?.15:-.15))}"><img id="lbimg" alt="Página '+p+'" style="width:100%" src="data:image/webp;base64,'+DATA.pages[p]+'"></div></div>'}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&document.querySelector(".lb"))closeModal()});
@@ -436,7 +436,7 @@ function refreshView(){if(st.view==="review")drawRev();else if(st.view==="result
 async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
 function askPw(mode){
   PWMODE=mode||"g";
-  const t=PWMODE==="all"?'Escribe la <b>clave maestra</b> para desbloquear <b>todos los grados</b>.':'Escribe la contraseña de este grado para ver las <b>respuestas correctas, las explicaciones y el paso a paso</b>. (La clave maestra también funciona.)';
+  const t=PWMODE==="all"?'Escribe la <b>clave maestra</b> para desbloquear <b>todos los grados</b>.':'Escribe la contraseña de este grado para ver las <b>respuestas correctas, las explicaciones y el paso a paso</b>.';
   modal("🔒 Contenido protegido",t+'<input id="pwin" class="pwin" type="password" placeholder="Contraseña" autocomplete="off" onkeydown="if(event.key===\'Enter\')tryPw()"><span id="pwerr" class="pwerr"></span>','<button class="b2" onclick="closeModal()">Cancelar</button><button class="b1" onclick="tryPw()">🔓 Desbloquear</button>');
   setTimeout(()=>{const e=$("pwin");if(e)e.focus()},60);
 }
@@ -445,8 +445,8 @@ async function tryPw(){
   try{h=await sha(v)}catch(e){$("pwerr").textContent="Tu navegador no permite verificar la contraseña (abre la página con https).";return}
   const bad=m=>{$("pwerr").textContent=m;const e=$("pwin");if(e){e.value="";e.focus()}};
   const done=()=>{saveUnl();closeModal();updUnl();refreshView()};
-  if(h===PW_HASH){UNL.all=true;done();return}
-  if(PWMODE==="all"){bad("Esa no es la clave maestra.");return}
+  if(PWMODE==="all"){if(h===PW_HASH){UNL.all=true;done()}else bad("Esa no es la clave maestra.");return}
+  if(h===PW_HASH){bad("La clave maestra solo se usa en el botón 🔑 Desbloquear todo (arriba a la derecha).");return}
   const g=Object.keys(PW_G).find(k=>PW_G[k]===h);
   if(!g){bad("Contraseña incorrecta. Inténtalo de nuevo.");return}
   if(g!==curG()){bad("Esa contraseña es de otro grado.");return}
