@@ -171,6 +171,20 @@ main{max-width:1140px;margin:0 auto;padding:20px 16px 70px}
 .ig{display:inline-block;margin:0 2px;padding:2px 12px;border-radius:999px;background:linear-gradient(120deg,#be185d,#ec4899);color:#fff!important;font-weight:800;font-size:.9rem;text-decoration:none;box-shadow:0 3px 10px rgba(219,39,119,.35)}
 .ig:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .legado{margin:14px 0 0;padding:14px 18px;border-left:6px solid #db2777;border-radius:12px;background:rgba(255,255,255,.65);color:#4a0a2a;font-style:italic;line-height:1.65}
+.comp{border-radius:12px;padding:12px 16px;margin:10px 0;line-height:1.5;border:1px solid transparent}
+.comp b{display:block;font-size:.95rem}
+.comp p{margin:4px 0 0;font-weight:600}
+.comp.ok{background:var(--okbg);border-color:var(--ok)}.comp.ok b{color:var(--ok)}
+.comp.bad{background:var(--badbg);border-color:var(--bad)}.comp.bad b{color:var(--bad)}
+.comp.na{background:var(--wbg);border-color:var(--warn)}.comp.na b{color:var(--warn)}
+.compres details{border:1px solid var(--bd);border-radius:12px;margin-top:10px;background:var(--card);overflow:hidden}
+.compres summary{cursor:pointer;padding:12px 16px;font-weight:800;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.compres summary small{font-weight:600;color:var(--mu)}
+.compres ul{list-style:none;margin:0;padding:4px 14px 14px}
+.compres li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;margin-top:6px;border-radius:10px;font-size:.95rem;line-height:1.45}
+.compres li.ok{background:var(--okbg)}.compres li.bad{background:var(--badbg)}
+.compres li i{font-style:normal;font-weight:900;min-width:44px}
+.compres li.ok i{color:var(--ok)}.compres li.bad i{color:var(--bad)}
 .legado span{display:block;margin-top:6px;text-align:right;font-weight:800;font-style:normal;color:#9d174d}
 .ex{margin-top:16px;border:1px solid var(--bd);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);overflow:hidden}
 .ex-h,.mt-h{display:flex;align-items:center;gap:12px;padding:14px 18px;background:linear-gradient(115deg,#12040e,#7a1050 45%,#db2777);color:#fff}
@@ -512,6 +526,133 @@ function methodHTML(s,q){
 
 
 
+/* ===== Competencias evaluadas (sí / no reconoce) ===== */
+const COMP={
+mat:{
+ por:'calcula e interpreta porcentajes y descuentos en situaciones cotidianas',
+ pro:'interpreta probabilidades y medidas estadísticas (promedio, moda, mediana, muestras)',
+ dat:'lee e interpreta información presentada en tablas y gráficas',
+ geo:'aplica propiedades y fórmulas de figuras geométricas (área, perímetro, volumen, ángulos)',
+ med:'reconoce magnitudes y realiza conversiones de unidades de medida',
+ alg:'plantea y resuelve ecuaciones, expresiones y funciones',
+ raz:'usa razones, proporciones y fracciones para resolver problemas',
+ sec:'reconoce patrones y regularidades en secuencias numéricas o de figuras',
+ num:'resuelve problemas con operaciones entre números',
+ gen:'razona y resuelve problemas matemáticos a partir de la información dada'},
+lc:{
+ vis:'interpreta textos visuales (afiches, infografías, imágenes) y su mensaje',
+ sig:'comprende el sentido de palabras y expresiones según el contexto',
+ pro:'reconoce la intención, el propósito y la voz del autor',
+ inf:'infiere y concluye ideas que el texto sugiere',
+ seq:'reconoce el orden y la estructura de los hechos del texto',
+ loc:'identifica información explícita y local del texto',
+ gen:'comprende el sentido global del texto'},
+nat:{
+ exp:'analiza experimentos, variables y conclusiones a partir de evidencias',
+ fis:'explica fenómenos físicos como fuerzas, energía y movimiento',
+ bio:'relaciona seres vivos, procesos biológicos y ecosistemas',
+ qui:'explica cambios de la materia, mezclas y reacciones químicas',
+ gen:'explica fenómenos naturales con conceptos científicos y evidencias'},
+soc:{
+ pre:'reconoce prejuicios y estereotipos y evalúa argumentos',
+ der:'reconoce derechos, deberes y mecanismos de participación ciudadana',
+ con:'analiza conflictos, dilemas y diferentes perspectivas',
+ cv:'aplica normas de convivencia, respeto y diálogo para resolver situaciones',
+ eco:'comprende conceptos económicos y su impacto en la sociedad',
+ his:'relaciona hechos históricos y geográficos con su contexto',
+ gen:'analiza situaciones sociales y ciudadanas desde distintas perspectivas'},
+ing:{
+ avi:'comprende avisos y mensajes cortos en inglés',
+ voc:'relaciona definiciones y contextos con el vocabulario correcto en inglés',
+ con:'elige respuestas adecuadas en conversaciones cotidianas en inglés',
+ phr:'comprende expresiones y verbos compuestos (phrasal verbs) en inglés',
+ gra:'usa correctamente tiempos verbales y estructuras gramaticales en inglés',
+ lec:'comprende textos escritos en inglés',
+ ctx:'completa frases con la palabra o expresión adecuada en inglés',
+ gen:'comprende y usa el inglés en situaciones comunicativas'}
+};
+const AF_VERB={analizar:'analiza',asociar:'asocia',comprender:'comprende',derivar:'deriva',explicar:'explica',identificar:'identifica',modelar:'modela',observar:'observa',utilizar:'utiliza'};
+function afShort(a){
+  let t=String(a||'').trim().replace(/\.$/,'');
+  if(!t)return'';
+  const w=t.split(' ')[0],lw=w.toLowerCase();
+  if(AF_VERB[lw])t=AF_VERB[lw]+t.slice(w.length);
+  t=t.charAt(0).toLowerCase()+t.slice(1);
+  t=t.split(/,| basad[oa] en| con base en| a partir de la| para (comprender|evaluar)/)[0].trim();
+  return t;
+}
+function compKey(s,q){
+  const area=({lc:'lc',mat:'mat',soc:'soc',nat:'nat',ing1:'ing',ing2:'ing'})[s.a||s.id]||'lc';
+  const x=EXPL[key(s,q)];
+  const raw=(x?((x.e||'')+' '+x.i.map(i=>i[1]).join(' ')+' '+(x.d||'')):'');
+  const txt=norm(raw+' '+(q.q||'')+' '+(q.ctx||'')+' '+(q.part||''));
+  const has=r=>r.test(txt);
+  let k='gen';
+  if(area==='mat'){
+    if(has(/porcentaj|descuento|\d\s?%/))k='por';
+    else if(has(/probabilid|aleatori|muestra|azar|promedio|mediana|moda\b|frecuencia|estadistic/))k='pro';
+    else if(has(/tabla|grafica|diagrama de barras|histograma|ejes|pictograma/))k='dat';
+    else if(has(/area|perimetro|volumen|angulo|triangulo|cuadrad|circulo|circunferencia|prisma|cilindro|radio|pitagor|figura|cubo|hexagon|rectangul|simetri|rotacion|traslacion/))k='geo';
+    else if(has(/ecuacion|incognita|funcion|variable|formula|expresion|polinomio|pendiente|lineal/))k='alg';
+    else if(has(/fraccion|razon|proporci|escala|regla de tres|decimal/))k='raz';
+    else if(has(/patron|secuencia|sucesion|regularidad/))k='sec';
+    else if(has(/metro|litro|kilo|gramo|conversion|unidad|cm|segundos|horas|minutos/))k='med';
+    else if(has(/suma|resta|multiplic|divid|cantidad|total|cuesta|precio|pesos|\$/))k='num';
+  }else if(area==='lc'){
+    if(has(/afiche|infografia|imagen|grafiti|caricatura|diagrama|cartel|ilustracion|publicidad/))k='vis';
+    else if(has(/orden|secuencia|ocurren|cuando se fue|primero|despues|finalmente/))k='seq';
+    else if(has(/significa|sentido|palabra|expresion|connot|quiere decir|sinonimo/))k='sig';
+    else if(has(/proposito|intencion|autor|funcion|voz|emisor|tono|narrador|texto busca/))k='pro';
+    else if(has(/inferir|concluir|se puede|se deduce|conclusion|implica|sugiere|se infiere/))k='inf';
+    else if(has(/segun el texto|el texto dice|se menciona|menciona|informa|afirma/))k='loc';
+  }else if(area==='nat'){
+    if(has(/experiment|hipotesis|pregunta de investigacion|variable|muestra|indagaci|grupo de control|resultados/))k='exp';
+    else if(has(/fuerza|aceleracion|velocidad|energia|masa|movimiento|circuito|electric|newton|presion|temperatura|onda|luz|sonido|calor|gravedad/))k='fis';
+    else if(has(/celula|especie|ecosistema|poblacion|cadena|alimento|planta|animal|adn|gen\b|genes|organism|vivo|fotosintesis|herencia|enfermedad/))k='bio';
+    else if(has(/reaccion|acido|mezcla|elemento|atomo|ecuacion|solucion|sustancia|ph\b|molecula|compuesto|enlace|densidad/))k='qui';
+  }else if(area==='soc'){
+    if(has(/prejuicio|discrimin|estereotipo|generaliz|falacia|argument/))k='pre';
+    else if(has(/constituci|derecho|articulo|ley\b|tutela|consulta|procuradur|protesta|estado|norma|voto|democracia|participacion/))k='der';
+    else if(has(/conflicto|dilema|interes|perspectiva|decision/))k='con';
+    else if(has(/convivencia|respeto|acoso|dialog|manual|companer|profesor|rector|colegio|salon/))k='cv';
+    else if(has(/econom|mercado|monopolio|precio|liberal|industria|laboral|empleo|comercio/))k='eco';
+    else if(has(/guerra|independencia|colonia|revolucion|siglo|historic|territorio|geograf|region|imperio|conquista/))k='his';
+  }else if(area==='ing'){
+    const p=norm(q.part||'');
+    if(q.t){
+      if(/lectura/.test(p))k='lec';
+      else if(/conversaci|funcional/.test(p))k='con';
+      else if(/verbos compuestos|expresiones/.test(p))k='phr';
+      else k='gra';
+    }else{
+      if(has(/aviso|letrero|notice|\bsign\b|cartel/))k='avi';
+      else if(has(/_{2,}|estructura|voz pasiva|comparativ|tiempo verbal|pronombre|preposicion|auxiliar|participio|condicional|conector|articulo|modal/))k='gra';
+      else if(has(/respuesta natural|conversaci|responde a|ofrece|pide|sugerenc|invitacion|what about|how about|would you|do you|can you|sounds good/))k='con';
+      else if(has(/describe|definicion|this is|this fruit|se usa para|color|significa|sinonimo|opuesto|lugar donde|objeto/))k='voc';
+      else if(has(/texto|lectura|segun el|fue adaptado|el autor|parrafo|articulo|resena|carta|correo|menciona/))k='lec';
+      if(k==='gen'){
+        const n=q.n,big=s.qs.length>=25;
+        k=n<=5?'voc':n<=10?(big?'ctx':'con'):n<=15?'gra':'lec';
+      }
+    }
+  }
+  return {area,k};
+}
+function compFor(s,q){
+  const {area,k}=compKey(s,q);
+  const a=(area==='lc'||area==='nat')?afShort(q.af&&!/^pregunta creada/i.test(q.af)?q.af:''):'';
+  return a||COMP[area][k]||COMP[area].gen;
+}
+function compHTML(s,q,a){
+  const c=compFor(s,q);
+  if(!a)return'<div class="comp na"><b>○ Competencia evaluada (sin responder)</b><p>No se pudo comprobar si '+escH(c)+'.</p></div>';
+  const ok=a===q.k;
+  return ok
+    ?'<div class="comp ok"><b>✔ Competencia evaluada · correcta</b><p>Sí '+escH(c)+'.</p></div>'
+    :'<div class="comp bad"><b>✘ Competencia evaluada · por reforzar</b><p>No '+escH(c)+'.</p></div>';
+}
+
+
 let S=DATA.sections;const ALL=[];function setS(ids){S=ids?DATA.sections.filter(s=>ids.includes(s.id)):DATA.sections.filter(s=>!s.g);ALL.length=0;S.forEach(s=>s.qs.forEach(q=>ALL.push({s,q})))}setS();
 let st={ans:{},flag:{},i:0,t0:0,sec:0,view:'home',rv:null,filter:'all'};let timer=null;
 const $=id=>document.getElementById(id),key=(s,q)=>s.id+'-'+q.n;
@@ -706,13 +847,8 @@ $('app').innerHTML=`${savedBanner()}
   <b>Sobre esta página</b>
   <p style="margin:8px 0 0">Creada por los estudiantes <b>JhosieGM</b> y <b>Angel Jeager</b>, estudiantes de grado décimo de la Institución Educativa Jorge Isaacs de El Cerrito, Valle, próximos a graduarse como la <b>promoción 2027</b>. Hecho con fines educativos y con inteligencia artificial.</p>
   <blockquote class="legado">
-    <b>🎓 Nuestro legado para ustedes, las futuras generaciones</b><br><br>
-    Querido estudiante: si estás leyendo esto, es porque decidiste dedicar un rato de tu día a prepararte, y eso ya te hace valiente. 💖<br><br>
-    Nosotros estuvimos sentados donde tú estás hoy: con dudas, con nervios y con ganas de hacerlo bien. Por eso creamos esta página: para que el camino te resulte un poco más fácil, más claro y menos solitario de lo que fue el nuestro.<br><br>
-    Queremos que recuerdes algo importante: <b>un simulacro no define quién eres.</b> Equivocarte aquí no es fracasar, es descubrir qué te falta repasar mientras todavía hay tiempo. Cada error es una pista, cada intento es un paso, y cada día de constancia te acerca más a tus sueños.<br><br>
-    Estudia con calma, descansa cuando lo necesites, pide ayuda sin pena y celebra tus avances por pequeños que parezcan. Rodéate de compañeros que te impulsen y compartan lo que saben, porque aprender en equipo es más bonito y llega más lejos.<br><br>
-    Nunca dejes de creer en ti. Lo que hoy te parece difícil, mañana será parte de lo que ya sabes. El ICFES no mide cuánto sabes hoy, sino cuánto te atreviste a prepararte. ¡Gracias por confiar en esta página y por darle sentido a nuestro esfuerzo! 🌟<br><br>
-    Con mucho cariño y mucha fe en ustedes, nos despedimos deseándoles éxitos en todo lo que se propongan. 🚀
+    <b>🎓 Una herramienta hecha con cariño para ti</b><br><br>
+    Creamos esta página para que te prepares y te motives de una forma moderna y estratégica. Aquí cada intento suma, cada error enseña y cada avance cuenta. Confía en ti, estudia a tu ritmo y recuerda que lo mejor está por venir. 🌟
     <span>— Promoción 2027 · I. E. Jorge Isaacs, El Cerrito, Valle 💗</span>
   </blockquote>
 </div>
@@ -985,6 +1121,7 @@ function results(){
   <div class="card" style="margin-top:16px"><h3 style="margin-top:0">Detalle por sección</h3>
     ${r.map(x=>`<div class="row"><b style="color:${x.s.color}">${x.s.name}</b><div><span style="color:var(--ok)">✔ ${x.c} correctas</span> · <span style="color:var(--bad)">✘ ${x.w} incorrectas</span> · <span style="color:var(--warn)">○ ${x.n} sin responder</span></div><small class="mu">de ${x.t} preguntas</small></div>`).join('')}
   </div>
+  ${isUnl()?compResults():''}
   <div class="nav" style="margin-top:16px">
     <button class="b1" onclick="rev('all')">Revisar todas las preguntas</button>
     ${isUnl()?`<button class="b2" onclick="rev('bad')">Ver las falladas</button>`:''}
@@ -992,6 +1129,19 @@ function results(){
     <button class="b2" onclick="backToGrade()">Volver a las pruebas</button>
     ${isUnl()?`<button class="b2" onclick="relock()">🔒 Bloquear respuestas</button>`:`<button class="b1" onclick="askPw()">🔑 Desbloquear respuestas</button>`}
   </div>`;
+}
+
+function compResults(){
+  const rows=S.map(s=>{
+    const L=s.qs.filter(q=>st.ans[key(s,q)]);
+    if(!L.length)return'';
+    const ok=L.filter(q=>st.ans[key(s,q)]===q.k).length;
+    return `<details><summary><span style="color:${s.color}">${s.name}</span><small>✔ ${ok} lograda${ok===1?'':'s'} · ✘ ${L.length-ok} por reforzar</small></summary><ul>${L.map(q=>{
+      const good=st.ans[key(s,q)]===q.k,c=escH(compFor(s,q));
+      return `<li class="${good?'ok':'bad'}"><i>P${q.n}</i><span>${good?'✔ Sí ':'✘ No '}${c}.</span></li>`}).join('')}</ul></details>`;
+  }).join('');
+  if(!rows)return'';
+  return `<div class="card compres" style="margin-top:16px"><h3 style="margin-top:0">🎯 Competencias evaluadas</h3><p class="mu" style="margin:0">Según las preguntas que respondiste: <b>✔ Sí</b> cuando la respuesta fue correcta y <b>✘ No</b> cuando hay que reforzar.</p>${rows}</div>`;
 }
 
 function rev(f){st.view='review';st.filter=(f==='bad'&&!isUnl())?'all':f;const L=lst();if(!L.length){st.filter='all'}st.i=lst()[0];drawRev()}
@@ -1013,7 +1163,7 @@ function drawRev(){
     ${isUnl()?'<button class="b2" onclick="relock()">🔒 Bloquear</button>':'<button class="b1" onclick="askPw()">🔑 Contraseña</button>'}
   </div>
   <div class="layout">
-    <div>${body(i,true)}${isUnl()?fb+explHTML(s,q)+methodHTML(s,q)+ex:lockHTML(a,a===q.k)}
+    <div>${body(i,true)}${isUnl()?fb+compHTML(s,q,a)+explHTML(s,q)+methodHTML(s,q):lockHTML(a,a===q.k)}
       <div class="nav" style="margin-top:12px">
         <button class="b2" ${p>0?`onclick="go(${L[p-1]})"`:'disabled'}>← Anterior</button>
         <span class="sp"></span>
